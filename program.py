@@ -66,7 +66,7 @@ def generateMosaic(mosaicName):
 	# value of each of them and stores that in the RGB matrix for emojis
 	count = 0;
 	for file in os.listdir("../mediaProject2/64x64"):
-		if file.endswith(".png"):<
+		if file.endswith(".png"):
 			imagePath = os.path.abspath("../mediaProject2/64x64/" + file);
 			emoji = Image.open(imagePath).convert('RGBA');
 			emoji = emoji.resize((32,32));
@@ -146,14 +146,14 @@ label = Label(text="Choose your\nfavorite Mosaic:");
 label.config(font=("Times New Roman", 36));
 label.pack();
 
-# Opens first mosaic and making it a button
+# Opens first mosaic and makes it a button
 image1 = Image.open('Mosaic1.png');
 photo1 = ImageTk.PhotoImage(image1);
 B1 = Button(window, command=closeWin);
 B1.config(image=photo1);
 B1.pack(side=LEFT);
 
-# Opens second mosaic and making it a button
+# Opens second mosaic and makes it a button
 image2 = Image.open('Mosaic2.png');
 photo2 = ImageTk.PhotoImage(image2);
 B2 = Button(window, command=closeWin);
