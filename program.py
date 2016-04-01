@@ -1,11 +1,15 @@
 # Names: Nancy Gomez, Sean Carpenter, Robert Lafont
-# Project: Emoji Mosaic
+# Project: Emoji Mosaic Slider Puzzle
+
+# Work used for the puzzle program: https://github.com/lvidarte/sliding-puzzle
+# Our github repository: 
 
 from Tkinter import *
 from PIL import Image, ImageTk
 import random
 import sys
 import os
+from puzzle import *
 
 #********************* Print Progress **********************************
 def printProgress (iteration, total, prefix = '', suffix = '', decimals = 2, barLength = 100):
@@ -24,7 +28,6 @@ def printProgress (iteration, total, prefix = '', suffix = '', decimals = 2, bar
     sys.stdout.flush()
     if iteration == total:
         print("\n")
-
 
 #********************* EMOJI FUNCTIONS *********************************
 def findAverageRGB(image):
@@ -59,12 +62,13 @@ def findClosestEmoji(red, green, blue, totalEmojis, usedEmoji):
 		foundGreen = abs(green - emojiRGB[i][1]) <= closestGreen;
 		foundBlue = abs(blue - emojiRGB[i][2]) <= closestBlue;
 		
+		# the final statement (usedEmoji[i] / 2 == 0) limits the occurence of each emoji
 		if (foundRed and foundGreen and foundBlue and usedEmoji[i] / 2 == 0):
 			closestRed = abs(red - emojiRGB[i][0]);
 			closestGreen = abs(green - emojiRGB[i][1]);
 			closestBlue = abs(blue - emojiRGB[i][2]);
 			closestEmoji = i;
-			
+				
 	return (closestEmoji);
 #**************************************************************************
 def getRandomFile(path):
@@ -117,17 +121,19 @@ def generateMosaic(mosaicName):
 			cropped_img = img.crop(boundingBox).convert('RGBA');
 			subSections[x][y] = cropped_img;
 
-			# Compare to the average RGB values of each possible emoji and
-			# choose the one that most closely mirrors those values
+			# Get the average RGB values of that subsection of the image
 			red, green, blue = findAverageRGB(subSections[x][y]);
 		
-			#find the closest emoji (with some randomization)
+			# find the index of the closest emoji who's average RGB values most closely
+			# mirror the average RGB values of the actual image (with the # of times that emoji
+			# occus under consideration)
 			closestEmoji = findClosestEmoji(red, green, blue, emojiNum, usedEmojis);
 			#add the occurence of the emoji to the array and increment the occurence	
 			usedEmojis.insert(closestEmoji, usedEmojis[closestEmoji]);
 			usedEmojis[closestEmoji]+=1;
 		
-			# adding a filter to the image so that it looks nicer :)		
+			# adding a filter to the image so that it looks nicer and then place it in the corresponding
+			# coordinate of the matrix that holds the emojis that will make up the mosaic		
 			filtered = Image.new('RGBA', (32, 32), (red, green, blue, 75));
 			filteredEmoji = Image.alpha_composite(emojiList[closestEmoji], filtered);
 			emojis[x][y] = filteredEmoji;
@@ -137,7 +143,8 @@ def generateMosaic(mosaicName):
 	
 	# creating an empty image to store the emojis that represent each mini image
 	put_together_emojis = Image.new('RGBA', (1024,1024), "white");
-
+	
+	# placing all the emojis that were in the matrix into the empty image
 	for y in range(0, 1024, 32):
 		for x in range(0, 1024, 32):
 			put_together_emojis.paste(emojis[x][y], (x,y));
@@ -145,8 +152,12 @@ def generateMosaic(mosaicName):
 	put_together_emojis.save(mosaicName, 'PNG');
 	
 # ****************************BUTTON FUNCTIONS*********************************
-def closeWin(): 
-    window.destroy();
+def saveMosaic1(): 
+	# run the puzzle program for the first mosaic
+	os.system("python puzzle1.py");
+def saveMosaic2(): 
+	# run the puzzle program for the second mosaic
+	os.system("python puzzle2.py");
 # ******************************* MAIN ****************************************
 
 # Making a matrix to hold the subSections and another to hold an emoji which
@@ -175,14 +186,14 @@ label.pack();
 # Opens first mosaic and makes it a button
 image1 = Image.open('Mosaic1.png');
 photo1 = ImageTk.PhotoImage(image1);
-B1 = Button(window, command=closeWin);
+B1 = Button(window, command=saveMosaic1);
 B1.config(image=photo1);
 B1.pack(side=LEFT);
 
 # Opens second mosaic and makes it a button
 image2 = Image.open('Mosaic2.png');
 photo2 = ImageTk.PhotoImage(image2);
-B2 = Button(window, command=closeWin);
+B2 = Button(window, command=saveMosaic2);
 B2.config(image=photo2);
 B2.pack(side=RIGHT);
 
