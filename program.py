@@ -79,8 +79,8 @@ def getRandomFile(path):
 
 def generateMosaic(mosaicName):
 	# open the image that the user's mood matches and resize it
-	fileName = getRandomFile("../mediaProject2/allFaces/");
-	face = Image.open("../mediaProject2/allFaces/" + fileName);
+	fileName = getRandomFile("../emoji_mosaic/allFaces/");
+	face = Image.open("../emoji_mosaic/allFaces/" + fileName);
 
 	img = face.resize((1024,1024)).convert('RGBA');
 	# make outter corners white
@@ -89,9 +89,9 @@ def generateMosaic(mosaicName):
 	# stores all the emojis contained in the folder in a list and then finds the average RGB
 	# value of each of them and stores that in the RGB matrix for emojis
 	count = 0;
-	for file in os.listdir("../mediaProject2/64x64"):
+	for file in os.listdir("../emoji_mosaic/64x64"):
 		if file.endswith(".png"):
-			imagePath = os.path.abspath("../mediaProject2/64x64/" + file);
+			imagePath = os.path.abspath("../emoji_mosaic/64x64/" + file);
 			emoji = Image.open(imagePath).convert('RGBA');
 			emoji = emoji.resize((32,32));
 			transparentToWhite(emoji, 32, 32);
