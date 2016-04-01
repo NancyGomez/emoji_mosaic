@@ -2,7 +2,7 @@
 # Project: Emoji Mosaic Slider Puzzle
 
 # Work used for the puzzle program: https://github.com/lvidarte/sliding-puzzle
-# Our github repository: 
+# Our github repository: https://github.com/NancyGomez/emoji_mosaic.git
 
 from Tkinter import *
 from PIL import Image, ImageTk
