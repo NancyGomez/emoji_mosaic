@@ -9,7 +9,8 @@ from PIL import Image, ImageTk
 import random
 import sys
 import os
-from puzzle import *
+from puzzle1 import *
+from puzzle2 import *
 
 #********************* Print Progress **********************************
 def printProgress (iteration, total, prefix = '', suffix = '', decimals = 2, barLength = 100):
@@ -169,7 +170,7 @@ emojis = [[0 for col in range(1024)] for row in range(1024)];
 emojiList = [];
 
 # a matrix that stores the rgb values (0 = red, 1 = green, 2 = blue) 
-emojiRGB = [[0 for col in range(3)] for row in os.listdir("../mediaProject2/64x64")];
+emojiRGB = [[0 for col in range(3)] for row in os.listdir("../emoji_mosaic/64x64")];
 
 # Generate both mosaics
 generateMosaic('Mosaic1.png');
